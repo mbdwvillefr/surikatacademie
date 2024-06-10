@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+	<div class="container mx-auto mt-5 p-4">
+		<h1 class="text-4xl font-bold text-center mb-8">Bienvenue à l'Académie</h1>
+		<p class="text-lg text-center mb-8">Bienvenue sur le site de l'Académie de Lyon. Notre mission est de fournir des formations de qualité pour les étudiants et les professionnels.</p>
+
+		<section class="mt-10 text-center">
+			<h2 class="text-2xl font-semibold mb-4">Nos Formations</h2>
+			<p class="text-lg mb-6">Nous proposons une variété de formations pour répondre à vos besoins. Découvrez notre catalogue de formations.</p>
+			<a href="{{ path('formations') }}" class="btn btn-primary bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Voir les Formations</a>
+		</section>
+
+		<section class="mt-10 text-center">
+			<h2 class="text-2xl font-semibold mb-4">Nos projects</h2>
+			<p class="text-lg mb-6">Découvrez les projects que nous réalisons à l'Académie, incluant les projects étudiants et professionnels.</p>
+			<a href="{{ path('projects') }}" class="btn btn-primary bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Voir les projects</a>
+		</section>
+
+		<section class="mt-10 text-center">
+			<h2 class="text-2xl font-semibold mb-4">À propos de l'Académie</h2>
+			<p class="text-lg mb-6">En savoir plus sur l'histoire et la mission de l'Académie de Lyon.</p>
+			<a href="{{ path('about') }}" class="btn btn-primary bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">En savoir plus</a>
+		</section>
+
+		<section class="mt-10 text-center">
+			<h2 class="text-2xl font-semibold mb-4">Contactez-nous</h2>
+			<p class="text-lg mb-6">Vous avez des questions ou souhaitez en savoir plus ? N'hésitez pas à nous contacter.</p>
+			<a href="{{ path('contact') }}" class="btn btn-primary bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Contactez-nous</a>
+		</section>
+	</div>
+{% endblock %}
