@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create New Company
+{% endblock %}
+
+{% block body %}
+	<h1>Create New Company</h1>
+
+	{{ form_start(form) }}
+	{{ form_row(form.name) }}
+	{{ form_row(form.address) }}
+
+	<button type="submit" class="btn btn-primary">Create</button>
+	{{ form_end(form) }}
+{% endblock %}
