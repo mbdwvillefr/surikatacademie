@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<h1>Contact List</h1>
+	<ul>
+		{% for contact in contacts %}
+			<li>
+				<a href="{{ path('contact_show', {id: contact.id}) }}">
+					{{ contact.name }}
+					-
+					{{ contact.email }}
+				</a>
+			</li>
+		{% endfor %}
+	</ul>
+{% endblock %}

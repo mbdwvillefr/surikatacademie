@@ -19,6 +19,9 @@ class Formation
     #[ORM\Column(type: 'text')]
     private string $description;
 
+    #[ORM\Column(type:'date')]
+    private \DateTimeInterface $startDate;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -29,10 +32,9 @@ class Formation
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $name): void
     {
         $this->name = $name;
-        return $this;
     }
 
     public function getDescription(): string
@@ -40,9 +42,19 @@ class Formation
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(string $description): void
     {
         $this->description = $description;
-        return $this;
+   
+    }
+
+    public function getStartDate(): \DateTimeInterface
+    {
+        return $this->startDate;
+    }
+
+    public function setStartDate(\DateTimeInterface $startDate): void
+    {
+        $this->startDate = $startDate;
     }
 }

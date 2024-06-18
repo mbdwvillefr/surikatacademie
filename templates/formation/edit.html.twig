@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Formation
+{% endblock %}
+
+{% block body %}
+	<h1>Edit Formation</h1>
+
+	{{ form_start(form) }}
+	{{ form_row(form.name) }}
+	{{ form_row(form.description) }}
+	{{ form_row(form.startDate) }}
+
+	<button type="submit" class="btn btn-primary">Save changes</button>
+	{{ form_end(form) }}
+
+	<a href="{{ path('formation_index') }}" class="btn btn-link">Back to list</a>
+{% endblock %}

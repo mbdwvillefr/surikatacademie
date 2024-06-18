@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Response; // 引入 Symfony 的 Response �
 use Symfony\Component\Routing\Annotation\Route; // 引入 Symfony 的 Route 注解
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController; // 引入 Symfony 的抽象控制器类
 
-#[Route('/company')]
 class CompanyController extends AbstractController // 继承 Symfony 的抽象控制器类
 {
     private EntityManagerInterface $entityManager; // 定义私有属性 EntityManagerInterface，用于操作实体
@@ -20,7 +19,7 @@ class CompanyController extends AbstractController // 继承 Symfony 的抽象�
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/', name: 'company_index', methods: ['GET'])]
+    #[Route('/company', name: 'company_index', methods: ['GET'])]
     public function index(): Response
     {
          // 通过 EntityManager 获取所有的 Company 实体
@@ -32,12 +31,12 @@ class CompanyController extends AbstractController // 继承 Symfony 的抽象�
         ]);
     }
 
-    #[Route('/new', name: 'company_new', methods: ['GET', 'POST'])]
+    #[Route('/company/new', name: 'company_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $company = new Company();// 创建一个新的 Company 实体对象
-        $form = $this->createForm(CompanyType::class, $company);// 使用 CompanyType 表单类型创建表单
-        $form->handleRequest($request); // 处理表单请求
+        $form = $this->createForm(CompanyType::class, $company);
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($company);
@@ -51,7 +50,7 @@ class CompanyController extends AbstractController // 继承 Symfony 的抽象�
         ]);
     }
 
-    #[Route('/{id}', name: 'company_show', methods: ['GET'])]
+    #[Route('/company/{id}', name: 'company_show', methods: ['GET'])]
     public function show(Company $company): Response
     {
         return $this->render('company/show.html.twig', [
@@ -59,7 +58,7 @@ class CompanyController extends AbstractController // 继承 Symfony 的抽象�
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'company_edit', methods: ['GET', 'POST'])]
+    #[Route('/company/{id}/edit', name: 'company_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Company $company): Response
     {
         $form = $this->createForm(CompanyType::class, $company);
@@ -77,7 +76,7 @@ class CompanyController extends AbstractController // 继承 Symfony 的抽象�
         ]);
     }
 
-    #[Route('/{id}', name: 'company_delete', methods: ['POST'])]
+    #[Route('/company/{id}', name: 'company_delete', methods: ['POST'])]
     public function delete(Request $request, Company $company): Response
     {
         if ($this->isCsrfTokenValid('delete' . $company->getId(), $request->request->get('_token'))) {
