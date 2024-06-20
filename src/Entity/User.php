@@ -1,147 +1,147 @@
 <?php
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+//Symfony的 UserInterface 和 PasswordAuthenticatedUserInterface 接口，
+//这些接口提供了与用户身份验证相关的基本方法和属性
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private ?int $id=null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $name;
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $email = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $email;
+    #[ORM\Column]
+    private array $roles = [];
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $password;
 
-    //一个Usercategory可以有很多个user，反之亦然
-    #[ORM\ManyToOne(targetEntity: UserCategory::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?UserCategory $category = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $name = null;
 
-    //一对一的关联关系，并且在删除 User 实体时，相关的 InfoUser 实体也会被删除（因为使用了 cascade: ['remove']
-    #[ORM\OneToOne(targetEntity: InfoUser::class, cascade: ['persist', 'remove'])]
-    //表示关联列不能为空，即每个用户必须有相应的用户信息。
-    #[ORM\JoinColumn(nullable: false)]
-    private ?InfoUser $infoUser = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $address = null;
 
-    #[ORM\ManyToOne(targetEntity: Company::class)]
-    #[ORM\JoinColumn(nullable: true)]
-    //? 符号表示属性可以为 null。在这种情况下，private ?Company $company; 表示 $company 属性可以存储一个 Company 对象或者为空值（null）。这在实际应用中很有用，因为有时用户可能不属于任何企业。
-    private ?Company $company= null;
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $phone = null;
 
-    //一对多关系，表示用户的报名记录，使用 ArrayCollection 初始化。
-    #[ORM\OneToMany(targetEntity: Inscription::class, mappedBy: 'user')]
-    private Collection $inscriptions;
-
-    //在User类中添加构造函数,初始化 UserCategory，以确保不会将 null 赋值给 UserCategory
-    public function __construct(UserCategory $category)
-    {
-        $this->inscriptions = new ArrayCollection();
-        $this->setCategory($category); // Set the category in the constructor to ensure it's never null
-    }
+    #[ORM\Column(nullable: true)]
+    private ?int $companyId = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function setEmail(string $email): void
+    public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
     }
 
+     /**
+     *实现UserInterface接口的方法，返回用户的唯一标识符，这里是用户的电子邮件地址。
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): void
+    public function setPassword(string $password): self
     {
         $this->password = $password;
-    }
 
-    public function getCategory(): UserCategory
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?UserCategory $category): void//需要时允许null
-    {
-        $this->category = $category;
-    }
-
-    public function getInfoUser(): ?InfoUser
-    {
-        return $this->infoUser;
-    }
-
-    public function setInfoUser(?InfoUser $infoUser): void
-    {
-        $this->infoUser = $infoUser;
-    }
-
-    public function getCompany(): ?Company
-    {
-        return $this->company;
-    }
-
-    public function setCompany(?Company $company): void
-    {
-        $this->company = $company;
-    }
-
-    /**
-     * @return Collection<int, Inscription>
-     */
-    public function getInscriptions(): Collection
-    {
-        return $this->inscriptions;
-    }
-    
- //确保User实体中的 addInscription 和 removeInscription 方法正确调用 Inscription 实体中的 setUser 方法。
-    public function addInscription(Inscription $inscription): self
-    {
-        if (!$this->inscriptions->contains($inscription)) {
-            $this->inscriptions->add($inscription);
-            $inscription->setUser($this);
-        }
         return $this;
     }
 
-    public function removeInscription(Inscription $inscription): self
+
+    public function getName(): ?string
     {
-        if ($this->inscriptions->removeElement($inscription)) {
-            // set the owning side to null (unless already changed)
-            if ($inscription->getUser() === $this) {
-                $inscription->setUser(null);
-            }
-        }
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getCompanyId(): ?int
+    {
+        return $this->companyId;
+    }
+
+    public function setCompanyId(?int $companyId): self
+    {
+        $this->companyId = $companyId;
 
         return $this;
     }

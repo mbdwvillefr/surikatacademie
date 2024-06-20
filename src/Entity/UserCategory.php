@@ -59,19 +59,10 @@ class UserCategory
 //addUser方法添加用户到 users 集合，如果用户不存在于集合中，并设置用户的类别为当前类别。
         if (!$this->users->contains($user)) {
              $this->users ->add($user);
-             $user->setCategory($this);
+             
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
-    {
-        if ($this->users->removeElement($user)) {
-            if ($user->getCategory() === $this) {
-                $user->setCategory(null);//确保所有属性和方法的类型声明正确并在需要时允许 null，可以减少这类类型错误的发生。
-            }
-        }
-        return $this;
-    }
 }
