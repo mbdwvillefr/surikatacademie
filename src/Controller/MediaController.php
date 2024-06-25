@@ -1,4 +1,5 @@
 <?php
+//处理课程相关的媒体文件的上传、查看和管理。
 namespace App\Controller;
 
 use App\Entity\Media;

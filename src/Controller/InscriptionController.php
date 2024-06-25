@@ -1,4 +1,5 @@
 <?php
+//处理学生和专业人员的注册和课程报名。
 namespace App\Controller;
 
 use App\Entity\Inscription;

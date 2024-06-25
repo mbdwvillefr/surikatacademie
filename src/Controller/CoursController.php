@@ -1,5 +1,5 @@
 <?php
-
+//处理单个课程的详细信息、支持材料、出勤管理、作业管理等。
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

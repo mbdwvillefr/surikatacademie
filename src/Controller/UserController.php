@@ -1,6 +1,5 @@
 <?php
-// UserController将处理用户的创建、查看、编辑和删除等操作。
-//用户可以是学生、讲师、管理员或超级管理员，每个角色具有不同的权限和功能。
+//处理用户的个人资料查看和编辑。
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

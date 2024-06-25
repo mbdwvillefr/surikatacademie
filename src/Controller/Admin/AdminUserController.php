@@ -1,5 +1,5 @@
 <?php
-
+//管理员工管理用户和角色
 namespace App\Controller\Admin;
 
 use App\Entity\User;

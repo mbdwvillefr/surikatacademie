@@ -1,5 +1,5 @@
 <?php
-
+//处理课程和培训的展示、创建、编辑等。
 namespace App\Controller;
 
 use App\Entity\Formation;
