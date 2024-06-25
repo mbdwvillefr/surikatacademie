@@ -1,51 +1,55 @@
 <?php
-
+//ContactController 将处理与联系表单相关的请求，例如显示表单和处理提交的表单。
 namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Form\ContactType;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class ContactController extends AbstractController
 {
-    #[Route('/contact', name: 'contact_index')]
-    public function index(EntityManagerInterface $em): Response
-    {
-        $contacts = $em->getRepository(Contact::class)->findAll();
-
-        return $this->render('contact/index.html.twig', [
-            'contacts' => $contacts,
-        ]);
-    }
-
-    #[Route('/contact/new', name: 'contact_new')]
-    public function new(Request $request, EntityManagerInterface $em): Response
-    {
+    #[Route('/contact', name: 'app_contact')]
+    public function sendEmail(
+        Request $request, 
+        MailerInterface $mailer
+    ): Response {
         $contact = new Contact();
         $form = $this->createForm(ContactType::class, $contact);
-
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($contact);
-            $em->flush();
 
-            return $this->redirectToRoute('contact_index');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $email = (new Email())
+                ->from($form->get('email')->getData())  // 使用小写属性名称
+                ->to('lisa.botellafr@gmail.com')
+                ->subject($form->get('subject')->getData())  // 使用小写属性名称
+                ->text($form->get('message')->getData());  // 使用小写属性名称
+
+            try {
+                // 发送邮件
+                $mailer->send($email);
+                $this->addFlash(
+                    'success',
+                    'Your message was sent successfully!'
+                );
+                // 处理完发送邮件后的逻辑，比如重定向或者显示感谢信息
+                return $this->redirectToRoute('app_thank_you');
+            } catch (TransportExceptionInterface $error) {
+                $this->addFlash(
+                    'error',
+                    'Failed to send email: ' . $error->getMessage()
+                );
+            }
         }
 
-        return $this->render('contact/new.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/contact/{id}', name: 'contact_show')]
-    public function show(Contact $contact): Response
-    {
-        return $this->render('contact/show.html.twig', [
-            'contact' => $contact,
+        // 如果不是POST请求，则渲染联系页面
+        return $this->render('contact/index.html.twig', [
+            'form' => $form->createView(),  // 传递表单视图
         ]);
     }
 }

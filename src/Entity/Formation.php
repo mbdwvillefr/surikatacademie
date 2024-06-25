@@ -1,33 +1,32 @@
 <?php
-
 namespace App\Entity;
 
-use App\Repository\FormationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: FormationRepository::class)]
+#[ORM\Entity]
 class Formation
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $name;
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
 
     #[ORM\Column(type: 'text')]
-    private string $description;
+    private ?string $description = null;
 
-    #[ORM\Column(type:'date')]
-    private \DateTimeInterface $startDate;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $user;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -37,7 +36,7 @@ class Formation
         $this->name = $name;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -45,16 +44,15 @@ class Formation
     public function setDescription(string $description): void
     {
         $this->description = $description;
-   
     }
 
-    public function getStartDate(): \DateTimeInterface
+    public function getUser(): User
     {
-        return $this->startDate;
+        return $this->user;
     }
 
-    public function setStartDate(\DateTimeInterface $startDate): void
+    public function setUser(User $user): void
     {
-        $this->startDate = $startDate;
+        $this->user = $user;
     }
 }

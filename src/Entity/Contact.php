@@ -1,25 +1,29 @@
 <?php
-
+//Contact实体将用于存储联系表单的数据。我们将使用 Doctrine ORM 来管理实体
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ContactRepository;
+use Doctrine\ORM\Mapping as ORM;
+
 
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
 class Contact
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 50)]
     private $name;
+    
+    #[ORM\Column(type: 'string', length: 50)]
+    private ?string $subject = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 50)]
     private $email;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'text', length: 50)]
     private $message;
 
     public function getId(): ?int
@@ -36,6 +40,17 @@ class Contact
     {
         $this->name = $name;
     }
+
+    public function getSubject(): ?string
+    {
+        return $this->subject;
+    }
+
+    public function setSubject(string $subject): void
+    {
+        $this->subject = $subject;
+    }
+
 
     public function getEmail(): string
     {

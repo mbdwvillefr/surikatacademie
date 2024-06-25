@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block title %}Registration Confirmation
+{% endblock %}
+
+{% block body %}
+	<h1>Welcome
+		{{ user.name }}!</h1>
+	<p>Thank you for registering on our site.</p>
+	<p>Please click the link below to confirm your email address:</p>
+	<a href="{{ url('email_confirmation', {'token': user.confirmationToken}) }}">Confirm your email address</a>
+{% endblock %}
+
+{#这个Twig模板与之前提供的 registrationController.php 
+中的 confirmation_email.html.twig 模板是相关。
+功能：
+用于生成并发送给用户的确认电子邮件内容。
+包含一个确认链接，用户需要点击该链接来确认其电子邮件地址。
+#}

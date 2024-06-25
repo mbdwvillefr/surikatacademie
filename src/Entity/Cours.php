@@ -13,7 +13,7 @@ class Cours
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 50)]
     private string $name;
 
     #[ORM\Column(type: 'text')]
@@ -32,10 +32,9 @@ class Cours
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $name): void
     {
         $this->name = $name;
-        return $this;
     }
 
     public function getDescription(): string
@@ -43,10 +42,9 @@ class Cours
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(string $description): void
     {
         $this->description = $description;
-        return $this;
     }
 
     public function getFormation(): ?Formation
@@ -54,9 +52,8 @@ class Cours
         return $this->formation;
     }
 
-    public function setFormation(?Formation $formation): self
+    public function setFormation(?Formation $formation): void
     {
         $this->formation = $formation;
-        return $this;
     }
 }

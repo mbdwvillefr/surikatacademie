@@ -17,9 +17,11 @@ class Inscription
     private \DateTimeInterface $date;
 
     #[ORM\ManyToOne(targetEntity:User::class, inversedBy: 'inscriptions')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     #[ORM\ManyToOne(targetEntity: Formation::class, inversedBy: 'inscriptions')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Formation $formation = null;
 
     public function getId(): ?int
@@ -43,10 +45,9 @@ class Inscription
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(?User $user): void
     {
         $this->user = $user;
-        return $this;
     }
 
     public function getFormation(): ?Formation
@@ -54,9 +55,8 @@ class Inscription
         return $this->formation;
     }
 
-    public function setFormation(?Formation $formation): self
+    public function setFormation(?Formation $formation): void
     {
         $this->formation = $formation;
-        return $this;
     }
 }

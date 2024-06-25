@@ -1,0 +1,17 @@
+<h1>Hi! Please confirm your email!</h1>
+
+<p>
+	Please confirm your email address by clicking the following link:
+	<br><br>
+	<a href="{{ signedUrl|raw }}">Confirm my Email</a>.
+						    This link will expire in
+	{{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+</p>
+
+<p>
+	Cheers!
+</p>
+
+{# 功能：
+用于生成并发送给用户的确认电子邮件内容。
+包含一个确认链接，用户需要点击该链接来确认其电子邮件地址。 #}

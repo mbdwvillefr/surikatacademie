@@ -9,12 +9,15 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 //这些接口提供了与用户身份验证相关的基本方法和属性
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements PasswordAuthenticatedUserInterface
+class User implements UserInterface,PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private ?int $id=null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $name = null;
 
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
@@ -26,9 +29,6 @@ class User implements PasswordAuthenticatedUserInterface
     private string $password;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $name = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
 
     #[ORM\Column(length: 20, nullable: true)]
@@ -36,6 +36,10 @@ class User implements PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     private ?int $companyId = null;
+
+    // Add the confirmationToken property
+    #[ORM\Column(type: 'string', length: 64, nullable: true)]
+    private ?string $confirmationToken = null;
 
     public function getId(): ?int
     {
@@ -46,11 +50,20 @@ class User implements PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $email): void
     {
         $this->email = $email;
+    }
 
-        return $this;
+    //添加一个确认令牌属性到 User 实体，用于生成唯一的确认链接。
+    public function getConfirmationToken(): ?string
+    {
+        return $this->confirmationToken;
+    }
+
+    public function setConfirmationToken(?string $confirmationToken): void
+    {
+        $this->confirmationToken = $confirmationToken;
     }
 
      /**
@@ -75,11 +88,9 @@ class User implements PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
+    public function setRoles(array $roles): void
     {
         $this->roles = $roles;
-
-        return $this;
     }
 
     /**
@@ -90,11 +101,9 @@ class User implements PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $password): void
     {
         $this->password = $password;
-
-        return $this;
     }
 
 
@@ -103,11 +112,9 @@ class User implements PasswordAuthenticatedUserInterface
         return $this->name;
     }
 
-    public function setName(?string $name): self
+    public function setName(?string $name): void
     {
         $this->name = $name;
-
-        return $this;
     }
 
     public function getAddress(): ?string
@@ -115,11 +122,9 @@ class User implements PasswordAuthenticatedUserInterface
         return $this->address;
     }
 
-    public function setAddress(?string $address): self
+    public function setAddress(?string $address): void
     {
         $this->address = $address;
-
-        return $this;
     }
 
     public function getPhone(): ?string
@@ -127,11 +132,9 @@ class User implements PasswordAuthenticatedUserInterface
         return $this->phone;
     }
 
-    public function setPhone(?string $phone): self
+    public function setPhone(?string $phone): void
     {
         $this->phone = $phone;
-
-        return $this;
     }
 
     public function getCompanyId(): ?int
@@ -139,10 +142,15 @@ class User implements PasswordAuthenticatedUserInterface
         return $this->companyId;
     }
 
-    public function setCompanyId(?int $companyId): self
+    public function setCompanyId(?int $companyId): void
     {
         $this->companyId = $companyId;
+    }
 
-        return $this;
+    // Implement the eraseCredentials method
+    public function eraseCredentials()
+    {
+//以确保在用户认证完成后不再保留确认令牌。这个动作是为了安全考虑，避免将不必要的敏感数据留存在内存中，从而提高应用程序的安全性。
+        $this->confirmationToken = null;
     }
 }

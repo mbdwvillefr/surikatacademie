@@ -13,11 +13,15 @@ class InfoUser
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 50)]
     private string $address;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 20)]
     private string $phone;
+
+    #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'infoUser')]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $user;
 
     public function getId(): ?int
     {
@@ -42,5 +46,15 @@ class InfoUser
     public function setPhone(string $phone): void
     {
         $this->phone = $phone;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
     }
 }
