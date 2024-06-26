@@ -70,6 +70,7 @@ class ContactType extends AbstractType
     {
         $resolver->setDefaults([
             // Configure your form options here
+            'data_class' => Contact::class,  // 设置表单的数据类
         ]);
     }
 }

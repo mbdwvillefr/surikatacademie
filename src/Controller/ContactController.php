@@ -14,7 +14,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class ContactController extends AbstractController
 {
-    #[Route('/contact', name: 'app_contact')]
+    #[Route('/contact', name: 'contact')]
     public function sendEmail(
         Request $request, 
         MailerInterface $mailer
@@ -37,8 +37,8 @@ class ContactController extends AbstractController
                     'success',
                     'Your message was sent successfully!'
                 );
-                // 处理完发送邮件后的逻辑，比如重定向或者显示感谢信息
-                return $this->redirectToRoute('app_thank_you');
+                 // 处理完发送邮件后的逻辑，比如重定向或者显示感谢信息
+                 return $this->redirectToRoute('thank_you');
             } catch (TransportExceptionInterface $error) {
                 $this->addFlash(
                     'error',

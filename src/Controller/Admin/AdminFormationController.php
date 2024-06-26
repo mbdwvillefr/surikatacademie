@@ -1,6 +1,6 @@
 <?php
 //功能：管理员工管理学院的所有培训和课程。
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Formation;
 use App\Form\FormationType;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class FormationController extends AbstractController
+class AdminFormationController extends AbstractController
 {
     private EntityManagerInterface $entityManager; //声明EntityManagerInterface属性
 
