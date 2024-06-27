@@ -21,17 +21,17 @@ class ContactController extends AbstractController
     ): Response {
         $contact = new Contact();
         $form = $this->createForm(ContactType::class, $contact);
-        $form->handleRequest($request);
 
+        $form->handleRequest($request);
+    
         if ($form->isSubmitted() && $form->isValid()) {
             $email = (new Email())
-                ->from($form->get('email')->getData())  // 使用小写属性名称
+                ->from($form->get('email')->getData())
                 ->to('lisa.botellafr@gmail.com')
-                ->subject($form->get('subject')->getData())  // 使用小写属性名称
-                ->text($form->get('message')->getData());  // 使用小写属性名称
+                ->subject($form->get('subject')->getData())
+                ->text($form->get('message')->getData());
 
             try {
-                // 发送邮件
                 $mailer->send($email);
                 $this->addFlash(
                     'success',
@@ -46,10 +46,10 @@ class ContactController extends AbstractController
                 );
             }
         }
-
         // 如果不是POST请求，则渲染联系页面
         return $this->render('contact/index.html.twig', [
-            'form' => $form->createView(),  // 传递表单视图
+            // 'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 }
