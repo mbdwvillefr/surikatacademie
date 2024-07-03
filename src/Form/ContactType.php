@@ -20,23 +20,23 @@ class ContactType extends AbstractType
                 'label' => 'Your Name',
                 'required' => true,
                 'attr' => [
-                    'class' => 'shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light',
+                    'class' => 'block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm shadow-blue-500 ring-1 ring-inset ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6',
                     'placeholder' => 'Your name',
                 ],
                 'label_attr' => [
-                    'class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300', // Add your label class here
+                    'class' => 'block text-sm font-semibold leading-6 text-black', // Add your label class here
                 ],
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Your Email',
+                'label' => 'Email',
                 'required' => true,
                 'attr' => [
                     'autocomplete' => 'email',
-                    'class' => 'shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light',
+                    'class' => 'block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6',
                     'placeholder' => 'Your email address',
                 ],
                 'label_attr' => [
-                    'class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300', // Add your label class here
+                    'class' => 'block text-sm font-semibold leading-6 text-red-600', // Add your label class here
                 ],
             ])
             ->add('subject', TextType::class, [
@@ -44,11 +44,11 @@ class ContactType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'autocomplete' => 'email',
-                    'class' => 'block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light',
+                    'class' => 'block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6',
                     'placeholder' => 'Enter a subject',
                 ],
                 'label_attr' => [
-                    'class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300', // Add your label class here
+                    'class' => 'block text-sm font-semibold leading-6 text-green-600', // Add your label class here
                 ],
             ])
             ->add('message', TextareaType::class, [
@@ -56,11 +56,11 @@ class ContactType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'rows' => 5,
-                    'class' => 'block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500',
+                    'class' => 'block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6',
                     'placeholder' => 'Enter your comment or query...',
                 ],
                 'label_attr' => [
-                    'class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400', // Add your label class here
+                    'class' => 'block text-sm font-semibold leading-6 text-green-600', // Add your label class here
                 ],
             ])
         ;
