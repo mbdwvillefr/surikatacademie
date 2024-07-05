@@ -5,3 +5,11 @@ controllers:
 contact:
     path: /contact
     controller: App\Controller\ContactController::sendEmail
+
+login:
+    path: /login
+    controller: App\Controller\LogInController::login
+
+dashboard:
+    path: /dashboard
+    controller: App\Controller\DashboardController::index

@@ -1,17 +1,45 @@
 security:
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+# https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+
+# role_hierarchy 定义了角色的层次结构
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        
+# providers 定义了一个内存中的用户提供者，其中包含三个用户，各自拥有不同的角色。
     providers:
-        users_in_memory: { memory: null }
+        in_memory:
+            memory:
+                users:
+                    user:
+                        password: 'userpass'
+                        roles: 'ROLE_USER'
+                    admin:
+                        password: 'adminpass'
+                        roles: 'ROLE_ADMIN'
+                    superadmin:
+                        password: 'superadminpass'
+                        roles: 'ROLE_SUPER_ADMIN'
+    
+# firewalls 定义了安全防火墙和登录、注销路径。
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        
         main:
             lazy: true
-            provider: users_in_memory
+            provider: in_memory
+            form_login:
+                login_path: login
+                check_path: login
+                default_target_path: dashboard # 确保这里重定向到用户有权限访问的页面
+
+            logout:
+                path: logout
+                target: login
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -22,8 +50,12 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        # - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/dashboard, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/superadmin, roles: ROLE_SUPER_ADMIN } 
+
+        
 
 when@test:
     security:

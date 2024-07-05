@@ -54,6 +54,22 @@
 						</a>
 					</li>
 				</ul>
+				
+				{# Authentication Links #}
+				<ul class="hidden md:inline-flex items-center ml-12">
+					{% if is_granted('ROLE_USER') %}
+						<li class="px-2 md:px-4">
+							<a href="{{ path('logout') }}">Se déconnecter</a>
+						</li>
+					{% else %}
+						<li class="px-2 md:px-4">
+							<a href="{{ path('login') }}">Log in</a>
+						</li>
+					{% endif %}
+				</ul>
+				{# End Authentication Links #}
+
+
 				{# profile #}
 				<div @click.away="open = false" class="relative" x-data="{ open: false }">
 					<button @click="open = !open" class="flex flex-row text-gray-900 bg-gray-200 items-center w-full px-4 py-2 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:focus:bg-gray-600 dark-mode:hover:bg-gray-600 md:w-auto md:inline md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
@@ -92,7 +108,7 @@
 									<path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"></path>
 								</svg>
 								<p class="block font-sans text-sm font-normal leading-normal text-inherit antialiased">
-									Sign Out
+									Log Out
 								</p>
 							</a>
 						</ul>
@@ -102,8 +118,12 @@
 			</header>
 		</div>
 	{% endblock %}
-	{% block body %}<!-- Main content of the page -->{% endblock %}
 
+	<body class="bg-gray-50 min-h-screen">
+		{% block body %}
+			<div class="container"><!-- Main content of the page -->{% endblock %}
+		</div>
+	</body>
 	{% block footer %}
 		<!-- component -->
 		<footer class="w-full text-gray-700 bg-gray-100 body-font">
@@ -208,4 +228,4 @@
 			</div>
 		</footer>
 	{% endblock %}
-</html></html>
+</html>
