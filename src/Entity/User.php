@@ -31,9 +31,6 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
 
-    #[ORM\Column(length: 20, nullable: true)]
-    private ?string $phone = null;
-
     #[ORM\Column(nullable: true)]
     private ?int $companyId = null;
 
@@ -106,7 +103,6 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
         $this->password = $password;
     }
 
-
     public function getName(): ?string
     {
         return $this->name;
@@ -125,16 +121,6 @@ class User implements UserInterface,PasswordAuthenticatedUserInterface
     public function setAddress(?string $address): void
     {
         $this->address = $address;
-    }
-
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(?string $phone): void
-    {
-        $this->phone = $phone;
     }
 
     public function getCompanyId(): ?int

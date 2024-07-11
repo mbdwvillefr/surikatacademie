@@ -10,6 +10,15 @@ login:
     path: /login
     controller: App\Controller\LogInController::login
 
+admin_index:
+    path: /admin
+    controller: App\Controller\AdminController::index
+
+superadmin_dashboard:
+    path: /superadmin
+    controller: App\Controller\SuperAdminController::index
+
+
 dashboard:
     path: /dashboard
     controller: App\Controller\DashboardController::index
